@@ -1,0 +1,14 @@
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\bin\Debug\net9.0\260107.exe
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\bin\Debug\net9.0\260107.deps.json
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\bin\Debug\net9.0\260107.runtimeconfig.json
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\bin\Debug\net9.0\260107.dll
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\bin\Debug\net9.0\260107.pdb
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.AssemblyInfoInputs.cache
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.AssemblyInfo.cs
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.dll
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\refint\260107.dll
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.pdb
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\260107.genruntimeconfig.cache
+C:\Users\USER\Desktop\경일게임아카데미\수업\26년 01월\260107\260107\obj\Debug\net9.0\ref\260107.dll
