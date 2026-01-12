@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\Desktop\\경일게임아카데미\\수업\\26년 01월\\260107\\260107\\260107.csproj": {}
+    "C:\\Users\\USER\\Documents\\GitHub\\04-oop-console-project-Jegaldowon\\JGDW_OOP_ConsoleGame\\260107\\260107.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\Desktop\\경일게임아카데미\\수업\\26년 01월\\260107\\260107\\260107.csproj": {
+    "C:\\Users\\USER\\Documents\\GitHub\\04-oop-console-project-Jegaldowon\\JGDW_OOP_ConsoleGame\\260107\\260107.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\Desktop\\경일게임아카데미\\수업\\26년 01월\\260107\\260107\\260107.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\04-oop-console-project-Jegaldowon\\JGDW_OOP_ConsoleGame\\260107\\260107.csproj",
         "projectName": "260107",
-        "projectPath": "C:\\Users\\USER\\Desktop\\경일게임아카데미\\수업\\26년 01월\\260107\\260107\\260107.csproj",
+        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\04-oop-console-project-Jegaldowon\\JGDW_OOP_ConsoleGame\\260107\\260107.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\Desktop\\경일게임아카데미\\수업\\26년 01월\\260107\\260107\\obj\\",
+        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\04-oop-console-project-Jegaldowon\\JGDW_OOP_ConsoleGame\\260107\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
