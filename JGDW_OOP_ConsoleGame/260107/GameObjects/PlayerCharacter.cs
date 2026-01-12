@@ -1,173 +1,198 @@
 
-
-using System.Runtime.InteropServices.Marshalling;
-
 public class PlayerCharacter : GameObject
 {
-    public ObservableProperty<int> Health = new ObservableProperty<int>(5);
-    public ObservableProperty<int> Mana = new ObservableProperty<int>(5);
-    private string _healthGauge;
-    private string _manaGauge;
-    
     public Tile[,] Field { get; set; }
-    private Inventory _inventory;
+    public ResourceInventory Inventory { get; private set; }
     public bool IsActiveControl { get; private set; }
 
-    public PlayerCharacter() => Init();
+    // 상호작용 정보
+    private GameObject _nearbyObject;
+    private string _interactionHint = "";
 
-    public void Init()
+    public PlayerCharacter()
     {
         Symbol = 'P';
         IsActiveControl = true;
-        Health.AddListener(SetHealthGauge);
-        Mana.AddListener(SetManaGauge);
-        _healthGauge = "■■■■■";
-        _manaGauge = "■■■■■";
-        _inventory = new Inventory(this);
+        Inventory = new ResourceInventory();
     }
 
     public void Update()
     {
-        if (InputManager.GetKey(ConsoleKey.I))
-        {
-            HandleControl();
-        }
-        
+        if (!IsActiveControl) return;
+
         if (InputManager.GetKey(ConsoleKey.UpArrow))
-        {
             Move(Vector.Up);
-            _inventory.SelectUp();
-        }
 
         if (InputManager.GetKey(ConsoleKey.DownArrow))
-        {
             Move(Vector.Down);
-            _inventory.SelectDown();
-        }
 
         if (InputManager.GetKey(ConsoleKey.LeftArrow))
-        {
             Move(Vector.Left);
-        }
 
         if (InputManager.GetKey(ConsoleKey.RightArrow))
-        {
             Move(Vector.Right);
-        }
 
-        if (InputManager.GetKey(ConsoleKey.Enter))
+        // Space로 상호작용
+        if (InputManager.GetKey(ConsoleKey.Spacebar))
         {
-            _inventory.Select();
+            if (_nearbyObject is IInteractable interactable)
+            {
+                interactable.Interact(this);
+            }
         }
-
-        if (InputManager.GetKey(ConsoleKey.T))
-        {
-            Health.Value--;
-        }
-    }
-
-    public void HandleControl()
-    {
-        _inventory.IsActive = !_inventory.IsActive;
-        IsActiveControl = !_inventory.IsActive;
-        Debug.LogWarning($"{_inventory._itemMenu.CurrentIndex}");
     }
 
     private void Move(Vector direction)
     {
-        if (Field == null || !IsActiveControl) return;
-        
-        Vector current = Position;
+        if (Field == null) return;
+
         Vector nextPos = Position + direction;
-        
-        // 1. 맵 바깥은 아닌지?
-        // 2. 벽인지?
 
-        GameObject nextTileObject = Field[nextPos.Y, nextPos.X].OnTileObject;
+        // 맵 범위 체크
+        if (nextPos.Y < 0 || nextPos.Y >= Field.GetLength(0) ||
+            nextPos.X < 0 || nextPos.X >= Field.GetLength(1))
+            return;
 
-        if (nextTileObject != null)
+        Tile nextTile = Field[nextPos.Y, nextPos.X];
+        GameObject nextObject = nextTile.OnTileObject;
+
+        // 건물이나 벽은 통과 불가
+        if (nextObject is Building)
         {
-            if (nextTileObject is IInteractable)
+            _nearbyObject = nextObject;
+            Building building = (Building)nextObject;
+            _interactionHint = "[Space] " + building.Name;
+            return;
+        }
+
+        // 자원은 수집 가능
+        if (nextObject is Resource resource)
+        {
+            if (CanCollect())
             {
-                (nextTileObject as IInteractable).Interact(this);
+                CollectResource(resource);
+                Field[nextPos.Y, nextPos.X].OnTileObject = null;
+            }
+            else
+            {
+                _interactionHint = "인벤토리가 가득 찼습니다!";
+                return;
             }
         }
 
+        // 이동 처리
         Field[Position.Y, Position.X].OnTileObject = null;
         Field[nextPos.Y, nextPos.X].OnTileObject = this;
         Position = nextPos;
+
+        // 주변 오브젝트 체크 리셋
+        _nearbyObject = null;
+        _interactionHint = "";
+        CheckNearbyObjects();
     }
 
-    public void Render()
+    private void CheckNearbyObjects()
     {
-        DrawHealthGauge();
-        DrawManaGauge();
-        _inventory.Render();
-    }
+        Vector[] directions = { Vector.Up, Vector.Down, Vector.Left, Vector.Right };
 
-    public void AddItem(Item item)
-    {
-        _inventory.Add(item);
-    }
-
-    public void DrawManaGauge()
-    {
-        Console.SetCursorPosition(Position.X - 2, Position.Y - 1);
-        _healthGauge.Print(ConsoleColor.Blue);
-    }
-
-    public void DrawHealthGauge()
-    {
-        Console.SetCursorPosition(Position.X - 2, Position.Y - 2);
-        _healthGauge.Print(ConsoleColor.Red);
-    }
-
-    public void SetHealthGauge(int health)
-    {
-        switch (health)
+        foreach (var dir in directions)
         {
-            case 5:
-                _healthGauge = "■■■■■";
-                break;
-            case 4:
-                _healthGauge = "■■■■□";
-                break;
-            case 3:
-                _healthGauge = "■■■□□";
-                break;
-            case 2:
-                _healthGauge = "■■□□□";
-                break;
-            case 1:
-                _healthGauge = "■□□□□";
-                break;
+            Vector checkPos = Position + dir;
+
+            if (checkPos.Y < 0 || checkPos.Y >= Field.GetLength(0) ||
+                checkPos.X < 0 || checkPos.X >= Field.GetLength(1))
+                continue;
+
+            GameObject obj = Field[checkPos.Y, checkPos.X].OnTileObject;
+
+            if (obj is Building building)
+            {
+                _nearbyObject = obj;
+                _interactionHint = "[Space] " + building.Name;
+                return;
+            }
         }
     }
 
-    public void SetManaGauge(int mana)
+    public bool CanCollect()
     {
-        switch (mana)
+        return !Inventory.IsFull;
+    }
+
+    public void CollectResource(Resource resource)
+    {
+        Inventory.Add(resource);
+    }
+
+    public void Render(int uiY)
+    {
+        // 상태 정보 UI 렌더링
+        Console.SetCursorPosition(0, uiY);
+        "---------------------------------------".Print(ConsoleColor.DarkGray);
+
+        Console.SetCursorPosition(0, uiY + 1);
+        (" 골드: " + DataManager.Gold.ToString().PadLeft(6) + "G  ").Print(ConsoleColor.Yellow);
+        ("| 인벤토리: " + Inventory.Count + "/" + Inventory.MaxSize).Print(ConsoleColor.White);
+
+        Console.SetCursorPosition(0, uiY + 2);
+        "---------------------------------------".Print(ConsoleColor.DarkGray);
+
+        // 상호작용 힌트
+        if (!string.IsNullOrEmpty(_interactionHint))
         {
-            case 5:
-                _healthGauge = "■■■■■";
-                break;
-            case 4:
-                _healthGauge = "■■■■□";
-                break;
-            case 3:
-                _healthGauge = "■■■□□";
-                break;
-            case 2:
-                _healthGauge = "■■□□□";
-                break;
-            case 1:
-                _healthGauge = "■□□□□";
-                break;
+            Console.SetCursorPosition(0, uiY + 3);
+            _interactionHint.Print(ConsoleColor.Cyan);
         }
     }
 
-    public void Heal(int value)
+    public void RenderInventoryPreview(int x, int y)
     {
-        Health.Value += value;
+        Console.SetCursorPosition(x, y);
+        "[ 보유 자원 ]".Print(ConsoleColor.Yellow);
+
+        var summary = Inventory.GetResourceSummary();
+        int line = 1;
+
+        foreach (var pair in summary)
+        {
+            Console.SetCursorPosition(x, y + line);
+
+            string name;
+            ConsoleColor color;
+
+            switch (pair.Key)
+            {
+                case ResourceType.Diamond:
+                    name = "◆ 다이아";
+                    color = ConsoleColor.Cyan;
+                    break;
+                case ResourceType.Gold:
+                    name = "● 금    ";
+                    color = ConsoleColor.Yellow;
+                    break;
+                case ResourceType.Silver:
+                    name = "● 은    ";
+                    color = ConsoleColor.White;
+                    break;
+                case ResourceType.Copper:
+                    name = "● 동    ";
+                    color = ConsoleColor.DarkYellow;
+                    break;
+                default:
+                    name = "? ???   ";
+                    color = ConsoleColor.Gray;
+                    break;
+            }
+
+            name.Print(color);
+            (": " + pair.Value + "개").Print();
+            line++;
+        }
+
+        if (summary.Count == 0)
+        {
+            Console.SetCursorPosition(x, y + 1);
+            "(비어있음)".Print(ConsoleColor.DarkGray);
+        }
     }
 }

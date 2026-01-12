@@ -1,4 +1,3 @@
-﻿
 
 public static class InputManager
 {
@@ -6,14 +5,15 @@ public static class InputManager
 
     private static readonly ConsoleKey[] _keys =
     {
-        ConsoleKey.UpArrow, 
-        ConsoleKey.DownArrow, 
-        ConsoleKey.LeftArrow, 
+        ConsoleKey.UpArrow,
+        ConsoleKey.DownArrow,
+        ConsoleKey.LeftArrow,
         ConsoleKey.RightArrow,
         ConsoleKey.Enter,
+        ConsoleKey.Spacebar,
+        ConsoleKey.Escape,
         ConsoleKey.I,
-        ConsoleKey.L,
-        ConsoleKey.T
+        ConsoleKey.L
     };
 
     public static bool GetKey(ConsoleKey input)

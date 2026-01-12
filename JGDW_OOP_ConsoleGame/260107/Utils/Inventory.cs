@@ -1,54 +1,73 @@
-﻿
-public class Inventory
+
+public class ResourceInventory
 {
-    private List<Item> _items = new List<Item>();
-    public bool IsActive { get; set; }
-    public MenuList _itemMenu = new MenuList();
-    private PlayerCharacter _owner;
-    
-    public Inventory(PlayerCharacter owner)
+    private List<Resource> _resources = new List<Resource>();
+
+    public int MaxSize => DataManager.GetMaxInventorySize();
+    public int Count => _resources.Count;
+    public bool IsFull => Count >= MaxSize;
+    public bool IsEmpty => Count == 0;
+
+    public void Add(Resource resource)
     {
-        _owner = owner;
+        if (IsFull) return;
+        _resources.Add(resource);
     }
 
-    public void Add(Item item)
+    public void Clear()
     {
-        if (_items.Count >= 10) return;
-        
-        _items.Add(item);
-        _itemMenu.Add(item.Name, item.Use);
-        item.Inventory = this;
-        item.Owner = _owner;
+        _resources.Clear();
     }
 
-    public void Remove(Item item)
+    public List<Resource> GetAllResources()
     {
-        _items.Remove(item);
-        _itemMenu.Remove();
+        return new List<Resource>(_resources);
     }
 
-    public void Render()
+    public Dictionary<ResourceType, int> GetResourceSummary()
     {
-        if (!IsActive) return;
-        
-        _itemMenu.Render(15, 1);
+        var summary = new Dictionary<ResourceType, int>();
+
+        foreach (var resource in _resources)
+        {
+            if (summary.ContainsKey(resource.Type))
+                summary[resource.Type]++;
+            else
+                summary[resource.Type] = 1;
+        }
+
+        return summary;
     }
 
-    public void Select()
+    public int GetTotalValue()
     {
-        if(!IsActive) return;
-        _itemMenu.Select();
+        int total = 0;
+        foreach (var resource in _resources)
+        {
+            total += resource.GetPrice();
+        }
+        return total;
     }
 
-    public void SelectUp()
+    // 특정 타입 자원 개수
+    public int GetCount(ResourceType type)
     {
-        if(!IsActive) return;
-        _itemMenu.SelectUp();
+        return _resources.Count(r => r.Type == type);
     }
 
-    public void SelectDown()
+    // 특정 타입 자원 모두 제거하고 반환
+    public List<Resource> RemoveAll(ResourceType type)
     {
-        if(!IsActive) return;
-        _itemMenu.SelectDown();
+        var removed = _resources.Where(r => r.Type == type).ToList();
+        _resources.RemoveAll(r => r.Type == type);
+        return removed;
+    }
+
+    // 모든 자원 판매
+    public int SellAll()
+    {
+        int totalGold = GetTotalValue();
+        _resources.Clear();
+        return totalGold;
     }
 }
