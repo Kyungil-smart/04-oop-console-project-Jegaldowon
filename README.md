@@ -38,7 +38,7 @@
 
 ### 화면 구성
 ### Main (초안)
-![alt text](image-2.png)
+![alt text](Image/image-2.png)
 
 
 ---
