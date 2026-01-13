@@ -19,9 +19,10 @@ public class Warehouse : Building
         Color = ConsoleColor.DarkYellow;
     }
 
+    // 씬 이름 작성 입장
     public override void Interact(PlayerCharacter player)
     {
-        SceneManager.Change("창고 건물 업그레이드");
+        SceneManager.Change("BuildingUpgrade_Warehouse");
     }
 }
 
@@ -38,7 +39,7 @@ public class Laboratory : Building
 
     public override void Interact(PlayerCharacter player)
     {
-        SceneManager.Change("실험실 건물 업그레이드");
+        SceneManager.Change("BuildingUpgrade_Laboratory");
     }
 }
 
@@ -55,7 +56,7 @@ public class Shop : Building
 
     public override void Interact(PlayerCharacter player)
     {
-        SceneManager.Change("상점");
+        SceneManager.Change("Shop");
     }
 }
 

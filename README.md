@@ -10,8 +10,8 @@
 
 
 ### 루프
-마을 이동 -> 필드 입장 -> 자원 수집 -> 인벤토리가 가득 참 -> 마을 귀환 -> 상점 판매
--> 건물 업그레이드 -> 필드 입장 
+    마을 입장 -> 필드 입장 -> 자원 수집 -> 인벤토리가 가득 참 -> 마을 귀환 -> 상점 판매
+    -> 건물 업그레이드 -> 필드 입장
 
 ### 시스템 
     상점 : 자원 판매, 장비 구매
@@ -24,16 +24,39 @@
 ---
 
 ### 조작 방법
-키보드 방향키 : 캐릭터 이동, 메뉴 선택
-Space : 상호작용
-Enter : 선택확인
-Esc : 뒤로가기
-L : 로그 확인
+    캐릭터 이동 :   방향키
+    Space :        상호작용
+    ESC :          뒤로가기
+    L :            디버그 로그 보기
+
+### 건물
+    S : 상점 : 광물 판매
+    W : 창고 : 인벤토리 용량 업그레이드
+    L : 연구소 : 희귀 자원 확률 업그레이드
+    M : 광산 : 광산 입장
+
 
 ### 화면 구성
-### Main
+### Main (초안)
 ![alt text](image-2.png)
 
 
+---
+## 구현
+### MainScene
+![alt text](image-1.png)
 
+### StartScene
+![alt text](image.png)
 
+### Field
+![alt text](image-3.png)
+
+### Shop
+![alt text](image-4.png)
+
+### Warehouse
+![alt text](image-5.png)
+
+### Laboratory
+![alt text](image-6.png)
