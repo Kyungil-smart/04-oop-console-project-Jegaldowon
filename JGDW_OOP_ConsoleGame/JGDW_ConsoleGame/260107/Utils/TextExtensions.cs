@@ -7,7 +7,7 @@ public static class TextExtensions
         if (color != ConsoleColor.Gray) Console.ForegroundColor = color;
 
         Console.Write(text);
-        
+
         if (color != ConsoleColor.Gray) Console.ResetColor();
     }
 
@@ -16,10 +16,10 @@ public static class TextExtensions
         if (color != ConsoleColor.Gray) Console.ForegroundColor = color;
 
         Console.Write(character);
-        
+
         if (color != ConsoleColor.Gray) Console.ResetColor();
     }
-    
+
     public static int GetTextWidth(this string text)
     {
         int width = 0;
@@ -41,6 +41,7 @@ public static class TextExtensions
         {
             return 2;
         }
+
         else
         {
             return 1;

@@ -2,7 +2,7 @@
 public class Mineral : Item, IInteractable
 {
     public MineralType Type { get; private set; }
-    
+
     private static readonly Dictionary<MineralType, (char symbol, string name, ConsoleColor color)> ResourceInfo = new Dictionary<MineralType, (char, string, ConsoleColor)>
     {
         { MineralType.Copper,  ('*', "동광석", ConsoleColor.DarkYellow) },
@@ -10,9 +10,9 @@ public class Mineral : Item, IInteractable
         { MineralType.Gold,    ('*', "금광석", ConsoleColor.Yellow) },
         { MineralType.Diamond, ('+', "다이아몬드", ConsoleColor.Cyan) }
     };
-    
+
     public ConsoleColor Color { get; private set; }
-    
+
     public Mineral(MineralType type)
     {
         Type = type;
@@ -22,7 +22,7 @@ public class Mineral : Item, IInteractable
         Color = info.color;
         Description = GetDescription();
     }
-    
+
     private string GetDescription()
     {
         switch (Type)
@@ -39,12 +39,14 @@ public class Mineral : Item, IInteractable
                 return "알 수 없는 자원";
         }
     }
-    
+
+
+
     public int GetPrice()
     {
         return DataManager.MineralPrice(Type);
     }
-    
+
     public override void Use()
     {
         // 자원은 사용하지 않고 판매만 가능
@@ -60,20 +62,20 @@ public class Mineral : Item, IInteractable
             DataManager.TotalResourcesCollected++;
         }
     }
-    
+
     // 랜덤 자원 생성 (연구소 레벨에 따른 희귀도 보정)
     public static Mineral CreateRandom()
     {
         Random random = new Random();
         float rareBonus = DataManager.RareMineral();
         int rand = random.Next(100);
-        
+
         // 기본 확률: 동 60%, 은 25%, 금 12%, 다이아 3%
         // 연구소 레벨에 따라 희귀 자원 확률 증가
         float diamondPercent = 3 * rareBonus;
         float goldPercent = 12 * rareBonus;
         float silverPercent = 25 * rareBonus;
-        
+
         if (rand < diamondPercent)
             return new Mineral(MineralType.Diamond);
         else if (rand < diamondPercent + goldPercent)

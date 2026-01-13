@@ -17,7 +17,7 @@ public class GameManager
             // 렌더링
             Console.Clear();
             SceneManager.Render();
-            
+
             // 키입력 받기
             InputManager.GetUserInput();
 
@@ -30,7 +30,7 @@ public class GameManager
             // 데이터 처리
             SceneManager.Update();
         }
-        
+
         // 게임 종료 메시지
         Console.Clear();
         Console.SetCursorPosition(0, 5);
@@ -51,14 +51,14 @@ public class GameManager
     private void Init()
     {
         IsGameOver = false;
-        
+
         // 콘솔 설정
         Console.CursorVisible = false;
         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        
+
         // 이벤트 연결
         SceneManager.OnChangeScene += InputManager.ResetKey;
-        
+
         // 플레이어 생성
         _player = new PlayerCharacter();
 
@@ -69,13 +69,13 @@ public class GameManager
         SceneManager.AddScene("Shop", new ShopScene(_player));
         SceneManager.AddScene("HowToPlay", new HowPlayScene());
         SceneManager.AddScene("Log", new LogScene());
-        
+
         // 건물 업그레이드 씬들
-        SceneManager.AddScene("BuildingUpgrade_Warehouse", 
+        SceneManager.AddScene("BuildingUpgrade_Warehouse",
             new BuildingUpgradeScene(_player, BuildingUpgradeScene.BuildingType.Warehouse));
-        SceneManager.AddScene("BuildingUpgrade_Laboratory", 
+        SceneManager.AddScene("BuildingUpgrade_Laboratory",
             new BuildingUpgradeScene(_player, BuildingUpgradeScene.BuildingType.Laboratory));
-        SceneManager.AddScene("BuildingUpgrade_Market", 
+        SceneManager.AddScene("BuildingUpgrade_Market",
             new BuildingUpgradeScene(_player, BuildingUpgradeScene.BuildingType.Market));
 
         // 시작 씬
@@ -84,4 +84,5 @@ public class GameManager
         Debug.Log("게임 데이터 초기화 완료");
         Debug.Log("수집 제작 타운라이프에 오신 것을 환영합니다!");
     }
+
 }

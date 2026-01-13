@@ -10,8 +10,6 @@ public class FieldScene : Scene
     private const int height = 18;
     private const int mineeralCount = 25;
 
-   
-
     public FieldScene(PlayerCharacter player)
     {
         this.player = player;
