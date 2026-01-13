@@ -44,19 +44,19 @@
 ---
 ## 구현
 ### MainScene
-![alt text](image-1.png)
+![alt text](Image/image-1.png)
 
 ### StartScene
-![alt text](image.png)
+![alt text](Image/image.png)
 
 ### Field
-![alt text](image-3.png)
+![alt text](Image/image-3.png)
 
 ### Shop
-![alt text](image-4.png)
+![alt text](Image/image-4.png)
 
 ### Warehouse
-![alt text](image-5.png)
+![alt text](Image/image-5.png)
 
 ### Laboratory
-![alt text](image-6.png)
+![alt text](Image/image-6.png)
